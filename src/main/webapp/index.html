@@ -1,25 +1,83 @@
 <html>
 <head>
-<meta charset="UTF-8">
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="js/Game.js"></script>
-
-
-
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<body data-ng-app="GamesApp" data-ng-controller="GamesController">
 
-<div class="jumbotron text-center">
-	<h2>Welcome</h2>
-	<div id="mensajeCorto"></div>	
-</div>
-
-<script>
-
-</script>
-
+<body>
+	<h1>Simple web and JPA application</h1>
+	This system uses an h2, in-memory database: <a href="http://localhost:8080/h2-console" target='_new'>http://localhost:8080/h2-console</a>
+	<table>
+		<tr>
+			<th>Register</th>
+			<th>Login</th>
+		</tr>
+		<tr>
+			<td>
+				<div id="divRegister">
+					<input type="email" id="registerEmail" placeholder="email" value="pepe@pepe.com"><br>
+					<input type="text" id="registerUserName" placeholder="user's name" value="pepe"><br>
+					<input type="password" id="registerPwd1" placeholder="password" value="pepe123"><br>
+					<input type="password" id="registerPwd2" placeholder="confirm password" value="pepe123"><br>
+					<button onclick="register()">Register</button>
+				</div>
+			</td>
+			<td>
+				<div id="divLogin">
+					<input type="text" id="loginUserName" placeholder="email or username" value="pepe"><br>
+					<input type="password" id="loginPwd" placeholder="password" value="pepe123"><br>
+					<button onclick="login()">Login</button>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2"><label id="msg"></label></td>
+		</tr>
+	</table>
 </body>
+<script>
+	function register() {
+		var info = {
+			email : $("#registerEmail").val(),
+			userName : $("#registerUserName").val(),
+			pwd1 : $("#registerPwd1").val(),
+			pwd2 : $("#registerPwd2").val(),
+		};
+		var data = {
+			data : info,
+			url : "register",
+			type : "post",
+			success : ok,
+			error : error
+		};
+		$.ajax(data);
+	}
+	
+	function login() {
+		var info = {
+			userName : $("#loginUserName").val(),
+			pwd : $("#loginPwd").val(),
+			withEmail : ($("#loginUserName").val().indexOf("@")!=-1)
+		};
+		
+		var data = {
+			data : info,
+			url : "login",
+			type : "post",
+			success : ok,
+			error : error
+		};
+		$.ajax(data);
+	}
+	
+	function ok() {
+		$("#msg").html("OK").attr("style", "color:blue");
+	}
+	
+	function error(response) {
+		$("#msg").html(response.responseText).attr("style", "color:red");
+	}
+</script>
 </html>
