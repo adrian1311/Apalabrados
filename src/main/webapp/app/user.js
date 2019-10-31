@@ -6,6 +6,14 @@ function UserViewModel() {
 	
 	this.message = ko.observable();
 	
+	this.getUsers = function(){
+		$.get("listaUsuarios", mostrarListado);
+	}
+	
+	function mostrarListado(respuesta){
+		self.message(JSON.stringify(respuesta));
+	}
+	
 	this.login = function() {
 		var info = {
 			userName : this.userName(),
