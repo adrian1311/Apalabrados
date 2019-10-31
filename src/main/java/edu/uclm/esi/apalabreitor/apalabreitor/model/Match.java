@@ -7,7 +7,7 @@ public class Match {
 	private User PlayerA;
 	private User PlayerB;
 	
-	//Test
+	//Test2
 	public Match() {
 		this.id = UUID.randomUUID().toString();
 	}
