@@ -6,6 +6,46 @@ function UserViewModel() {
 	
 	this.message = ko.observable();
 	
+	this.nuevaPartida = function(){
+		var info = {
+				action : "Nueva partida"
+				
+			};
+		
+		var data = {
+				data : info,
+				url : "solicitarPartida",
+				type : "post",
+				success : partidaOk,
+				error : error
+			};
+			$.ajax(data);
+	
+	}
+	
+	function partidaOk(respuesta){
+		self.message(respuesta);
+	}
+	
+	
+	
+	this.unirPartida = function(){
+		var info = {
+				action : "Unir a partida"
+				
+			};
+		
+		var data = {
+				data : info,
+				url : "solicitarPartida",
+				type : "post",
+				success : partidaOk,
+				error : error
+			};
+			$.ajax(data);
+	}
+	
+
 	this.getUsers = function(){
 		$.get("listaUsuarios", mostrarListado);
 	}

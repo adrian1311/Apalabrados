@@ -2,6 +2,7 @@ package edu.uclm.esi.apalabreitor.apalabreitor.web.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -9,12 +10,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.uclm.esi.apalabreitor.apalabreitor.dao.UserRepository;
+import edu.uclm.esi.apalabreitor.apalabreitor.model.Match;
 import edu.uclm.esi.apalabreitor.apalabreitor.model.User;
 import edu.uclm.esi.apalabreitor.apalabreitor.web.exceptions.LoginException;
 
@@ -23,6 +27,27 @@ public class WebController {
 	@Autowired
 	private UserRepository userRepo;
 	private List<User> users = new ArrayList<>();
+	private List<Match> pendingMatches = new ArrayList<>();
+	private ConcurrentHashMap<String , Match> inPlaymatches = new ConcurrentHashMap<>();
+	
+	//@RequestMapping(name="solicitarPartida", method = RequestMethod.POST)
+	@PostMapping("/solicitarPartida")
+	public String solicitarPartida(HttpSession session, @RequestParam(value="action") String action) throws Exception {
+		if (session.getAttribute("user")==null)
+			throw new Exception("Identificate antes de solicitar");
+		User user = (User) session.getAttribute("user");
+		if(action.equals("Nueva partida")) {
+			Match match = new Match();
+			match.setPlayerA(user);
+			this.pendingMatches.add(match);
+			
+		}else if (action.equals("Unir a partida")) {
+			Match match = this.pendingMatches.remove(0);
+			match.setPlayerB(user);
+			this.inPlaymatches.put(match.getId(),match);
+		}
+		return "hola, has elegido" + action;
+	}
 	
 	@RequestMapping("/listaUsuarios")
 	public List<User> listaUsuarios() {
@@ -53,6 +78,7 @@ public class WebController {
 			user=userRepo.findById(userName).get();
 		if (user!=null && user.getPwd().equals(pwd)) {
 			session.setAttribute("user", user);
+			
 			this.users.add(user);
 		}
 		else throw new LoginException();
