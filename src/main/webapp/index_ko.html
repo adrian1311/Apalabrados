@@ -25,7 +25,7 @@
 			</td>
 			<td>
 				<div id="divLogin">
-					<input type="text" id="loginUserName" data-bind="value : userName" placeholder="email or username"><br>
+					<input type="text" id="loginUserName" data-bind="value : email" placeholder="email or username"><br>
 					<input type="password" data-bind="value : pwd" placeholder="password"><br>
 					<button data-bind="click : login">Login</button>
 				</div>
@@ -35,7 +35,6 @@
 			<td colspan="2"><label id="message" data-bind="html : message"></label></td>
 		</tr>
 	</table>
-	<button data-bind="click: getUsers">Recuperar Usuarios</button>
 
 	<script src="https://knockoutjs.com/downloads/knockout-3.5.0.js"></script>
 	<script src="app/user.js"></script>

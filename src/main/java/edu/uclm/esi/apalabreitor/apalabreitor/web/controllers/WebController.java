@@ -1,8 +1,5 @@
 package edu.uclm.esi.apalabreitor.apalabreitor.web.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -22,12 +19,6 @@ import edu.uclm.esi.apalabreitor.apalabreitor.web.exceptions.LoginException;
 public class WebController {
 	@Autowired
 	private UserRepository userRepo;
-	private List<User> users = new ArrayList<>();
-	
-	@RequestMapping("/listaUsuarios")
-	public List<User> listaUsuarios() {
-		return this.users;
-	}
 	
 	@RequestMapping("/register")
 	public void register(@RequestParam(value="userName") String userName, @RequestParam(value="email") String email, @RequestParam(value="pwd1") String pwd1, @RequestParam(value="pwd2") String pwd2) throws Exception {
@@ -51,10 +42,8 @@ public class WebController {
 			user=userRepo.findByEmail(userName);
 		else
 			user=userRepo.findById(userName).get();
-		if (user!=null && user.getPwd().equals(pwd)) {
+		if (user!=null && user.getPwd().equals(pwd))
 			session.setAttribute("user", user);
-			this.users.add(user);
-		}
 		else throw new LoginException();
 	}
 	
@@ -81,5 +70,4 @@ public class WebController {
 		result.setStatus(HttpStatus.UNAUTHORIZED);
 	    return result;
 	}
-	
 }
