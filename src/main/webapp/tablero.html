@@ -1,4 +1,4 @@
-s<!DOCTYPE>
+<!DOCTYPE>
 <html>
   <head>
     <title>Apalabrados</title>
@@ -102,45 +102,39 @@ s<!DOCTYPE>
             <!-- FILA COMPONENTES FICHAS JUGADOR -->
             <div class="row">
               <div class="col-12">
-                <table class="table" >
-                  <tbody>
-                    <tr height="40">
-                      <td style="padding: 2px;"><img src="./img/letters/A.jpg" width="40" height="40"/></td>
-                      <td style="padding: 2px;"><img src="./img/letters/E.jpg" width="40" height="40"/></td>
-                      <td style="padding: 2px;"><img src="./img/letters/H.jpg" width="40" height="40"/></td>
-                      <td style="padding: 2px;"><img src="./img/letters/O.jpg" width="40" height="40"/></td>
-                      <td style="padding: 2px;"><img src="./img/letters/P.jpg" width="40" height="40"/></td>
-                      <td style="padding: 2px;"><img src="./img/letters/R.jpg" width="40" height="40"/></td>
-                      <td style="padding: 2px;"><img src="./img/letters/S.jpg" width="40" height="40"/></td>
-                    </tr>
-                  </tbody>
-                </table>
+                  <div class="letters-wrapper">
+                    <ul class="letters">
+                        <li><img src="./img/letters/A.jpg" width="40" height="40"/></li>
+                        <li><img src="./img/letters/E.jpg" width="40" height="40"/></li>
+                        <li><img src="./img/letters/H.jpg" width="40" height="40"/></li>
+                        <li><img src="./img/letters/O.jpg" width="40" height="40"/></li>
+                        <li><img src="./img/letters/P.jpg" width="40" height="40"/></li>
+                        <li><img src="./img/letters/R.jpg" width="40" height="40"/></li>
+                        <li><img src="./img/letters/S.jpg" width="40" height="40"/></li>
+                    </ul>
+                </div>
               </div>
             </div>
             <!-- FILA COMPONENTES BOTONES JUGADAS -->
-
             <div class="row">
               <div class="col-12">
                 <img src="./img/shelf.jpg" width="100%"/>
-
               </div>
             </div>
 
           <div id="botonera">
             <div class="row">
               <div class="col-12">
-                <table class="table">
-                  <tbody>
-                    <tr>
-                  <td style="padding: 2px;"><button type="button" class="btn btn-primary"><img src="./iconos/check.png" /></button></td>
-                  <td style="padding: 2px;"><button type="button" class="btn btn-primary"><img src="./iconos/back.png"/></button></td>
-                  <td style="padding: 2px;"><button type="button" class="btn btn-primary"><img src="./iconos/change.png"/></button></td>
-                  <td style="padding: 2px;"><button type="button" class="btn btn-primary"><img src="./iconos/mix.png"/></button></td>
-                  <td style="padding: 2px;"><button type="button" class="btn btn-primary"><img src="./iconos/pass.png"/></button></td>
-                  <td style="padding: 2px;"><button type="button" class="btn btn-primary"><img src="./iconos/flag.png"/></button></td>
-                </tr>
-              </tbody>
-            </table>
+                <div class="buttons-wrapper">
+                  <ul class="buttons">
+                      <li><button type="button" class="btn btn-primary"><img src="./iconos/check.png" /></button></li>
+                      <li><button type="button" class="btn btn-primary"><img src="./iconos/back.png" /></button></li>
+                      <li><button type="button" class="btn btn-primary"><img src="./iconos/change.png"/></button></li>
+                      <li><button type="button" class="btn btn-primary"><a id='shuffle'><img src="./iconos/mix.png"/></a></button></li>
+                      <li><button type="button" class="btn btn-primary"><img src="./iconos/pass.png"/></button></li>
+                      <li><button type="button" class="btn btn-primary"><img src="./iconos/flag.png"/></button></li>
+                  </ul>
+              </div>
           </div>
           </div>
         </div>
@@ -411,7 +405,93 @@ s<!DOCTYPE>
         </div>
       </div>
     </div>
-
   </body>
 
+
+<script type="text/javascript">
+var spacing = 0;
+var offset = 50;
+var count = 0;
+var positions = [];
+
+// First of all, lets absolutely position our elements
+
+$("ul.letters li").css('float', 'none').css('position','absolute');
+
+// As the size of the surrounding element will collapse, give it a fixed height:
+
+$("ul.letters").css('height', '40px')
+$("ul.letters li").each(function(){
+
+    // One by one, create a position for each
+    the_position = spacing + "px";
+
+    // Add the position to an array
+    positions.push(the_position);
+
+    // Everything was absolutely positioned: so give the left property the correct distance
+    $(this).css('left', the_position);
+
+    // Store this letter's origianl position for reset
+    $(this).attr('data-origin', the_position);
+
+    // Increment the spacing by the specified amount from earlier
+    spacing += offset;
+
+    // Next letter, increase the count!
+    count ++;
+});
+
+
+$("#shuffle").click(function()
+{
+  // Duplicate array so we don't mess with the original here
+  var shuffled_positions = positions.slice(0);
+
+  // Use the cool fisherYates method of randomly ordering the new array (see later on)
+  var shuffled_positions = fisherYates(shuffled_positions);
+
+  // For each letter...
+  $("ul.letters li").each(function(){
+
+    // Animate
+    $(this).animate({
+      // The left distance, to the first element in the array
+      left: shuffled_positions[0]
+    });
+
+    // Remove the 'used' position from the array
+    shuffled_positions.splice(0, 1);
+  });
+});
+
+// When you click restore...
+$("#restore").click(function()
+{
+  // For each letter
+  $("ul.letters li").each(function(){
+    // Get its original position (set earlier and stored in the html)
+    var pos = $(this).attr('data-origin');
+    // Animate
+    $(this).animate({
+      // It's left distance
+      left: pos
+    });
+  });
+});
+
+//this is some cool algorithm that is recommended
+function fisherYates ( myArray ) {
+    var i = myArray.length;
+    if ( i == 0 ) return false;
+    while ( --i ) {
+        var j = Math.floor( Math.random() * ( i + 1 ) );
+        var tempi = myArray[i];
+        var tempj = myArray[j];
+        myArray[i] = tempj;
+        myArray[j] = tempi;
+    }
+    return myArray;
+}
+</script>
 </html>
