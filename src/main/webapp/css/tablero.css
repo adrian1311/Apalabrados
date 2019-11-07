@@ -1,3 +1,5 @@
+
+@import "compass/css3";
 /*---------------- NAVBAR ------------*/
 .bg-light{
 	background-color: #336699 !important;
@@ -124,6 +126,8 @@ table.table tfoot .links a{
 
 
 
+/* -- letras -- */
+
 .letters-wrapper{
 	position:relative;
 
@@ -137,7 +141,36 @@ table.table tfoot .links a{
 	display:block;
 	float:left;
 	margin:6px 6px 6px 6px;
-	width:30px;
+	width:40px;
+
+	font-weight:bold;
+	height:40px;
+	text-align:center;
+	text-transform:uppercase;
+	border-radius:2px;
+	font-size:24px;
+	color:black;
+	border: 1px solid black;
+	border-radius: 5px;
+
+	/*Background*/
+
+  background: $gradient_tile_stop; /* Old browsers */
+  background: -moz-linear-gradient(top,  #ebd19a 0%, #e3c083 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ebd19a), color-stop(100%,#e3c083)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #ebd19a 0%, #e3c083 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ebd19a 0%, #e3c083 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #ebd19a 0%, #e3c083 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #ebd19a 0%, #e3c083 100%); /* W3C */
+
+  /*Box Shadow*/
+
+  -webkit-box-shadow: 1px 4px 7px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow:    1px 4px 7px rgba(0, 0, 0, 0.2);
+  box-shadow:         1px 4px 7px rgba(0, 0, 0, 0.2);
+
+  /*Text Shadow*/
+  text-shadow: 0px 0px 8px rgba(245, 222, 175, 1);
 }
 
 .buttons-wrapper{
