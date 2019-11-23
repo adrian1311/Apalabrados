@@ -2,19 +2,24 @@ package edu.uclm.esi.apalabreitor.apalabreitor.web.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.uclm.esi.apalabreitor.apalabreitor.dao.PalabraRepository;
 import edu.uclm.esi.apalabreitor.apalabreitor.dao.UserRepository;
+import edu.uclm.esi.apalabreitor.apalabreitor.model.Match;
 import edu.uclm.esi.apalabreitor.apalabreitor.model.User;
 import edu.uclm.esi.apalabreitor.apalabreitor.web.exceptions.LoginException;
 
@@ -22,7 +27,45 @@ import edu.uclm.esi.apalabreitor.apalabreitor.web.exceptions.LoginException;
 public class WebController {
 	@Autowired
 	private UserRepository userRepo;
+	@Autowired
+	private PalabraRepository palabraRepo;
+	
 	private List<User> users = new ArrayList<>();
+	private List<Match> pendingMatches = new ArrayList<>();
+	public static ConcurrentHashMap<String, Match> inPlayMatches = new ConcurrentHashMap<>();
+	
+	@Autowired
+	public void loadPalabrasRepo() {
+		Manager.get().setPalabrasRepo(palabraRepo);
+	}
+	
+	@PostMapping("/solicitarPartida")
+	public String solicitarPartida(HttpSession session, @RequestParam(value="action") String action) throws Exception {
+		
+		if (session.getAttribute("user")==null)
+			throw new Exception("Identifícate antes de jugar");
+		User user = (User) session.getAttribute("user");
+		if (action.equals("Nueva partida")) {
+			Match match = new Match();
+			match.setPlayerA(user);
+			this.pendingMatches.add(match);
+			JSONObject jso=new JSONObject();
+			jso.put("type", "PARTIDA CREADA");
+			jso.put("idPartida", match.getId());
+			return jso.toString();
+		} else if (action.equals("Unir a partida")) {
+			if (this.pendingMatches.isEmpty())
+				throw new Exception("No hay partidas pendientes. Crea una.");
+			Match match = this.pendingMatches.remove(0);
+			match.setPlayerB(user);
+			inPlayMatches.put(match.getId(), match);
+			JSONObject jso=new JSONObject();
+			jso.put("type", "PARTIDA LISTA");
+			jso.put("idPartida", match.getId());
+			return jso.toString();
+		}
+		return null;
+	}
 	
 	@RequestMapping("/listaUsuarios")
 	public List<User> listaUsuarios() {
@@ -30,7 +73,9 @@ public class WebController {
 	}
 	
 	@RequestMapping("/register")
-	public void register(@RequestParam(value="userName") String userName, @RequestParam(value="email") String email, @RequestParam(value="pwd1") String pwd1, @RequestParam(value="pwd2") String pwd2) throws Exception {
+	public void register(@RequestParam(value="userName") String userName, 
+			@RequestParam(value="email") String email, 
+			@RequestParam(value="pwd1") String pwd1, @RequestParam(value="pwd2") String pwd2) throws Exception {
 		if (pwd1==null || pwd2==null)
 			throw new Exception("Empty passwords");
 		if (!pwd1.equals(pwd2))
@@ -45,7 +90,10 @@ public class WebController {
 	}
 	
 	@RequestMapping(value="/login")
-	public void login(HttpSession session, @RequestParam(value="userName") String userName, @RequestParam(value="pwd") String pwd, @RequestParam boolean withEmail) throws LoginException {
+	public void login(HttpSession session, 
+			@RequestParam(value="userName") String userName, 
+			@RequestParam(value="pwd") String pwd,
+			@RequestParam boolean withEmail) throws LoginException {
 		User user;
 		if (withEmail)
 			user=userRepo.findByEmail(userName);
@@ -81,5 +129,4 @@ public class WebController {
 		result.setStatus(HttpStatus.UNAUTHORIZED);
 	    return result;
 	}
-	
 }

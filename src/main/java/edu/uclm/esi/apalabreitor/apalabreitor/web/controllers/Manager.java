@@ -1,9 +1,12 @@
 package edu.uclm.esi.apalabreitor.apalabreitor.web.controllers;
 
+import edu.uclm.esi.apalabreitor.apalabreitor.dao.PalabraRepository;
 import edu.uclm.esi.apalabreitor.apalabreitor.model.*;
 
 public class Manager {
 	
+	private PalabraRepository palabrasRepo;
+
 	private Manager() {
 	}
 	
@@ -15,5 +18,11 @@ public class Manager {
 		return ManagerHolder.singleton;
 	}
 
+	public void setPalabrasRepo(PalabraRepository palabraRepo) {
+		this.palabrasRepo=palabraRepo;
+	}
 
+	public PalabraRepository getPalabrasRepo() {
+		return palabrasRepo;
+	}
 }
