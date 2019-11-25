@@ -114,7 +114,7 @@
                     <ul class="letters">
                       Panel:
                       <!-- ko foreach : panel -->
-                      <li> data-bind="html : $data, click : function() { $parent.seleccionar($data); }"></li>
+                      <li data-bind="html : $data, click : function() { $parent.seleccionar($data); }"></li>
                       <!-- /ko -->
                       </ul>
                       <br>
@@ -135,11 +135,11 @@
               <div class="col-12">
                 <div class="buttons-wrapper">
                   <ul class="buttons">
-                      <li><button type="button" class="btn btn-primary" title="Comprobar"><img src="./iconos/check.png" /></button></li>
+                      <li><button type="button" class="btn btn-primary" title="Comprobar" button data-bind="click : jugar, disabled : turnoDeOponente"><img src="./iconos/check.png" /></button></li>
                       <li><button type="button" class="btn btn-primary" title="Llamar"><img src="./iconos/back.png" /></button></li>
                       <li><button type="button" class="btn btn-primary" title="Cambiar"><img src="./iconos/change.png"/></button></li>
                       <li><button type="button" class="btn btn-primary" title="Mezclar"><a id='shuffle'><img src="./iconos/mix.png"/></a></button></li>
-                      <li><button type="button" class="btn btn-primary" title="Pasar"><img src="./iconos/pass.png"/></button></li>
+                      <li><button type="button" class="btn btn-primary" title="Pasar" data-bind="click : pasarTurno, disabled : turnoDeOponente"><img src="./iconos/pass.png"/></button></li>
                       <li><button type="button" class="btn btn-primary" title="Rendirse"><img src="./iconos/flag.png"/></button></li>
                   </ul>
               </div>
