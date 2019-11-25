@@ -38,7 +38,8 @@
 			<button data-bind="html : $data, click : function() { $parent.seleccionar($data); }"></button>
 			<!-- /ko -->
 			<br>
-			<button data-bind="click : jugar">Jugar</button>
+			<button data-bind="click : jugar, disabled : turnoDeOponente">Jugar</button>
+			<button data-bind="click : pasarTurno, disabled : turnoDeOponente">Jugar</button>
 		<!-- /ko -->
 		</div>
 	</div>

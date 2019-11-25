@@ -97,12 +97,16 @@ public class Match {
 	}
 
 	public void pasarTurno() {
+		// hay que preguntar si tiene el turno;
 		cambiarTurno(); //Cambio turno y lo notifico
 		ResultadoJugada resultado = new ResultadoJugada();
 		resultado.setTurno(true);
 		
 		try {
 			this.jugadorConElTurno.sendMessage(resultado);
+			resultado.setTurno(false);
+			User otro = (this.playerA==this.jugadorConElTurno ? this.playerB : this.playerA);
+			otro.sendMessage(resultado);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

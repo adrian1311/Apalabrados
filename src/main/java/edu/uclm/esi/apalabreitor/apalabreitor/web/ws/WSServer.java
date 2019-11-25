@@ -46,7 +46,6 @@ public class WSServer extends TextWebSocketHandler {
 			idPartida = jso.getString("idPartida");
 			match = WebController.inPlayMatches.get(idPartida);
 			match.pasarTurno();
-			
 			break;
 		case "ABANDONO" :
 			break;

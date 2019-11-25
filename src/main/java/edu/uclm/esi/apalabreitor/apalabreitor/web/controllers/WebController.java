@@ -2,6 +2,7 @@ package edu.uclm.esi.apalabreitor.apalabreitor.web.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.uclm.esi.apalabreitor.apalabreitor.dao.PalabraRepository;
+import edu.uclm.esi.apalabreitor.apalabreitor.dao.TokenRepository;
 import edu.uclm.esi.apalabreitor.apalabreitor.dao.UserRepository;
 import edu.uclm.esi.apalabreitor.apalabreitor.model.Match;
+import edu.uclm.esi.apalabreitor.apalabreitor.model.Token;
 import edu.uclm.esi.apalabreitor.apalabreitor.model.User;
 import edu.uclm.esi.apalabreitor.apalabreitor.web.exceptions.LoginException;
 
@@ -30,6 +33,8 @@ public class WebController {
 	@Autowired
 	private PalabraRepository palabraRepo;
 	
+	@Autowired
+	private TokenRepository tokenRepo;
 	private List<User> users = new ArrayList<>();
 	private List<Match> pendingMatches = new ArrayList<>();
 	public static ConcurrentHashMap<String, Match> inPlayMatches = new ConcurrentHashMap<>();
@@ -106,6 +111,31 @@ public class WebController {
 		else throw new LoginException();
 	}
 	
+	@PostMapping("/solicitarToken")
+	public void solicitarToken(@RequestParam String email) {
+		Token token = new Token(email); //CREA TOKEN PARA RECUPERAR CONTRASEÑA
+		tokenRepo.save(token); // Guardo Token
+		
+	}
+	@PostMapping("/actializarPwd")
+	public void actualizarPwd(@RequestParam String token, @RequestParam String pwd1,@RequestParam String pwd2 ) throws Exception {
+		if(pwd1.equals(pwd2)) {
+			throw new Exception("...");
+		Optional<Token> elToken = tokenRepo.findById(token); // devuelve un  token
+		if(elToken.isPresent()) {
+			Token t = elToken.get();
+			if(t.isCaducado()) {
+				throw new Exception("Token invalido");
+				User user = userRepo.findByEmail(t.getEmail());
+				user.setPwd(pwd1);
+				userRepo.save(user);
+			}
+		}else {
+			throw new Exception("Token invalido");
+		}
+		}
+		
+	}
 	
 	@RequestMapping("/salir")
 	public void salir(HttpSession session) throws Exception {

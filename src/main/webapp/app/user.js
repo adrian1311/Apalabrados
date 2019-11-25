@@ -10,8 +10,8 @@ function UserViewModel() {
 	this.tablero = ko.observable(new Tablero(ko));
 		
 	//Controlling hide & show tablero and reg+login forms
-	this.shouldShowRegLog = ko.observable(false);
-	this.shouldShowTablero = ko.observable(true);
+	this.shouldShowRegLog = ko.observable(true);
+	this.shouldShowTablero = ko.observable(false);
 	
 	//Textarea for logs
 	this.message = ko.observable();
@@ -201,6 +201,14 @@ class Tablero {
 				break;
 			}
 		}
+	}
+	pasarTurno(){
+		
+		var msg = {
+				type : "PASO DE TURNO",
+				idPartida: sessionStorage.idPartida
+		};
+		self.ws.send(JSON.stringify(msg));
 	}
 	
 	jugar() {
