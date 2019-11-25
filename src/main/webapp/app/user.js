@@ -10,8 +10,8 @@ function UserViewModel() {
 	this.tablero = ko.observable(new Tablero(ko));
 		
 	//Controlling hide & show tablero and reg+login forms
-	this.shouldShowRegLog = ko.observable(true);
-	this.shouldShowTablero = ko.observable(false);
+	this.shouldShowRegLog = ko.observable(false);
+	this.shouldShowTablero = ko.observable(true);
 	
 	//Textarea for logs
 	this.message = ko.observable();

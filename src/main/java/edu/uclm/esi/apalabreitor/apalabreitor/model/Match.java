@@ -95,4 +95,19 @@ public class Match {
 	private void cambiarTurno() {
 		this.jugadorConElTurno = (this.playerA==this.jugadorConElTurno ? this.playerB : this.playerA);
 	}
+
+	public void pasarTurno() {
+		cambiarTurno(); //Cambio turno y lo notifico
+		ResultadoJugada resultado = new ResultadoJugada();
+		resultado.setTurno(true);
+		
+		try {
+			this.jugadorConElTurno.sendMessage(resultado);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// TODO Auto-generated method stub
+		
+	}
 }
