@@ -1,0 +1,497 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <title>Apalabrados</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <!-- Font Awesome Icons -->
+    <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"-->
+
+    <!--BOOTSTRAP-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Tablero CSS -->
+    <link rel="stylesheet" type="text/css" href="css/tablero.css">
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script type="text/javascript" src="./js/myscript.js"></script>
+
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">APALABRADOS</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Crear partida</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Unirse a partida</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Desconectar</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- CONTENEDOR GENERAL -->
+    <div class="container">
+      <div class="row">
+        <!-- COLUMNA 1 DEL GRID -->
+        <div class="col-4">
+
+          <div class="controlPanel">
+            <!-- FILA COMPONENTES CUENTA ATRAS -->
+            <div class="row">
+              <div class="col-12" style="text-align:center">
+              </br></br>
+                <button type="button" onclick="initializeClock('clockdiv',deadline)">Empezar turno</button>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12" style="text-align:center">
+                </br>
+                <div id="clockdiv">
+                  <div>
+                    <span class="minutes"></span>
+                    <div class="smalltext">Minutes</div>
+                  </div>
+                  <div>
+                    <span class="seconds"></span>
+                    <div class="smalltext">Seconds</div>
+                  </div>
+                </div>
+                <br><br>
+              </div>
+            </div>
+            </br>
+            <!-- FILA COMPONENTES TIEMPO Y PUNTUACIONES -->
+            <div class="row">
+              <div class="col-12">
+                <table class="table" style="text-align:center">
+                  <thead>
+                    <tr>
+                      <th/>JUGADOR</th>
+                      <th/>PUNTUACIONES              <img src=".\iconos\info.png"/></th>
+
+                    </tr>
+                  </thead>
+                    <tbody>
+                    <tr>
+                      <td/>Raquel Ramos</td>
+                      <td/>15</td>
+                    </tr>
+                    <tr>
+                      <td/>Adrian Nikolev</td>
+                      <td/>30</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row">
+            </br></br></br>
+            </div>
+            <!-- FILA COMPONENTES FICHAS JUGADOR -->
+            <div class="row">
+              <div class="col-12">
+                  <div class="letters-wrapper">
+                    <ul class="letters">
+                        <li>A</li>
+                        <li>B</li>
+                        <li>C</li>
+                        <li>D</li>
+                        <li>E</li>
+                        <li>F</li>
+                        <li>G</li>
+                    </ul>
+                </div>
+              </div>
+            </div>
+            <!-- FILA COMPONENTES BOTONES JUGADAS -->
+            <div class="row">
+              <div class="col-12">
+                <img src="./img/shelf.jpg" width="100%"/>
+              </div>
+            </div>
+
+          <div id="botonera">
+            <div class="row">
+              <div class="col-12">
+                <div class="buttons-wrapper">
+                  <ul class="buttons">
+                      <li><button type="button" class="btn btn-primary" title="Comprobar"><img src="./iconos/check.png" /></button></li>
+                      <li><button type="button" class="btn btn-primary" title="Llamar"><img src="./iconos/back.png" /></button></li>
+                      <li><button type="button" class="btn btn-primary" title="Cambiar"><img src="./iconos/change.png"/></button></li>
+                      <li><button type="button" class="btn btn-primary" title="Mezclar"><a id='shuffle'><img src="./iconos/mix.png"/></a></button></li>
+                      <li><button type="button" class="btn btn-primary" title="Pasar"><img src="./iconos/pass.png"/></button></li>
+                      <li><button type="button" class="btn btn-primary" title="Rendirse"><img src="./iconos/flag.png"/></button></li>
+                  </ul>
+              </div>
+          </div>
+          </div>
+        </div>
+
+          </div>
+        </div>
+
+        <!-- COLUMNA 2 DEL GRID -->
+        <div class="col-8">
+          <!-- TABLERO -->
+          <table id="board" class="scrabble-table mdl-shadow--24dp" width="100%">
+              <tr>
+                <td id="grid-0,0" class="scrabble-td">&nbsp;</td>
+                <td id="grid-0,1" class="scrabble-td">&nbsp;</td>
+                <td id="grid-0,2" class="scrabble-td triple-word">TP</td>
+                <td id="grid-0,3" class="scrabble-td">&nbsp;</td>
+                <td id="grid-0,4" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-0,5" class="scrabble-td">&nbsp;</td>
+                <td id="grid-0,6" class="scrabble-td">&nbsp;</td>
+                <td id="grid-0,7" class="scrabble-td">&nbsp;</td>
+                <td id="grid-0,8" class="scrabble-td">&nbsp;</td>
+                <td id="grid-0,9" class="scrabble-td">&nbsp;</td>
+                <td id="grid-0,10" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-0,11" class="scrabble-td">&nbsp;</td>
+                <td id="grid-0,12" class="scrabble-td triple-word">TP</td>
+                <td id="grid-0,13" class="scrabble-td">&nbsp;</td>
+                <td id="grid-0,14" class="scrabble-td">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="grid-1,0" class="scrabble-td">&nbsp;</td>
+                <td id="grid-1,1" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-1,2" class="scrabble-td">&nbsp;</td>
+                <td id="grid-1,3" class="scrabble-td">&nbsp;</td>
+                <td id="grid-1,4" class="scrabble-td">&nbsp;</td>
+                <td id="grid-1,5" class="scrabble-td double-word">DP</td>
+                <td id="grid-1,6" class="scrabble-td">&nbsp;</td>
+                <td id="grid-1,7" class="scrabble-td">&nbsp;</td>
+                <td id="grid-1,8" class="scrabble-td">&nbsp;</td>
+                <td id="grid-1,9" class="scrabble-td double-word">DP</td>
+                <td id="grid-1,10" class="scrabble-td">&nbsp;</td>
+                <td id="grid-1,11" class="scrabble-td">&nbsp;</td>
+                <td id="grid-1,12" class="scrabble-td">&nbsp;</td>
+                <td id="grid-1,13" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-1,14" class="scrabble-td">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="grid-2,0" class="scrabble-td triple-word">TP</td>
+                <td id="grid-2,1" class="scrabble-td">&nbsp;</td>
+                <td id="grid-2,2" class="scrabble-td double-letter">DL</td>
+                <td id="grid-2,3" class="scrabble-td">&nbsp;</td>
+                <td id="grid-2,4" class="scrabble-td">&nbsp;</td>
+                <td id="grid-2,5" class="scrabble-td">&nbsp;</td>
+                <td id="grid-2,6" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-2,7" class="scrabble-td">&nbsp;</td>
+                <td id="grid-2,8" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-2,9" class="scrabble-td">&nbsp;</td>
+                <td id="grid-2,10" class="scrabble-td">&nbsp;</td>
+                <td id="grid-2,11" class="scrabble-td">&nbsp;</td>
+                <td id="grid-2,12" class="scrabble-td double-letter">DL</td>
+                <td id="grid-2,13" class="scrabble-td">&nbsp;</td>
+                <td id="grid-2,14" class="scrabble-td triple-word">TP</td>
+              </tr>
+              <tr>
+                <td id="grid-3,0" class="scrabble-td">&nbsp;</td>
+                <td id="grid-3,1" class="scrabble-td">&nbsp;</td>
+                <td id="grid-3,2" class="scrabble-td">&nbsp;</td>
+                <td id="grid-3,3" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-3,4" class="scrabble-td">&nbsp;</td>
+                <td id="grid-3,5" class="scrabble-td">&nbsp;</td>
+                <td id="grid-3,6" class="scrabble-td">&nbsp;</td>
+                <td id="grid-3,7" class="scrabble-td double-word">DP</td>
+                <td id="grid-3,8" class="scrabble-td">&nbsp;</td>
+                <td id="grid-3,9" class="scrabble-td">&nbsp;</td>
+                <td id="grid-3,10" class="scrabble-td">&nbsp;</td>
+                <td id="grid-3,11" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-3,12" class="scrabble-td">&nbsp;</td>
+                <td id="grid-3,13" class="scrabble-td">&nbsp;</td>
+                <td id="grid-3,14" class="scrabble-td">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="grid-4,0" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-4,1" class="scrabble-td">&nbsp;</td>
+                <td id="grid-4,2" class="scrabble-td">&nbsp;</td>
+                <td id="grid-4,3" class="scrabble-td">&nbsp;</td>
+                <td id="grid-4,4" class="scrabble-td">&nbsp;</td>
+                <td id="grid-4,5" class="scrabble-td">&nbsp;</td>
+                <td id="grid-4,6" class="scrabble-td double-letter">DL</td>
+                <td id="grid-4,7" class="scrabble-td">&nbsp;</td>
+                <td id="grid-4,8" class="scrabble-td double-letter">DL</td>
+                <td id="grid-4,9" class="scrabble-td">&nbsp;</td>
+                <td id="grid-4,10" class="scrabble-td">&nbsp;</td>
+                <td id="grid-4,11" class="scrabble-td">&nbsp;</td>
+                <td id="grid-4,12" class="scrabble-td">&nbsp;</td>
+                <td id="grid-4,13" class="scrabble-td">&nbsp;</td>
+                <td id="grid-4,14" class="scrabble-td triple-letter">TL</td>
+              </tr>
+              <tr>
+                <td id="grid-5,0" class="scrabble-td">&nbsp;</td>
+                <td id="grid-5,1" class="scrabble-td double-word">DP</td>
+                <td id="grid-5,2" class="scrabble-td">&nbsp;</td>
+                <td id="grid-5,3" class="scrabble-td">&nbsp;</td>
+                <td id="grid-5,4" class="scrabble-td">&nbsp;</td>
+                <td id="grid-5,5" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-5,6" class="scrabble-td">&nbsp;</td>
+                <td id="grid-5,7" class="scrabble-td">&nbsp;</td>
+                <td id="grid-5,8" class="scrabble-td">&nbsp;</td>
+                <td id="grid-5,9" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-5,10" class="scrabble-td">&nbsp;</td>
+                <td id="grid-5,11" class="scrabble-td">&nbsp;</td>
+                <td id="grid-5,12" class="scrabble-td">&nbsp;</td>
+                <td id="grid-5,13" class="scrabble-td double-word">DP</td>
+                <td id="grid-5,14" class="scrabble-td">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="grid-6,0" class="scrabble-td">&nbsp;</td>
+                <td id="grid-6,1" class="scrabble-td">&nbsp;</td>
+                <td id="grid-6,2" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-6,3" class="scrabble-td">&nbsp;</td>
+                <td id="grid-6,4" class="scrabble-td double-letter">DL</td>
+                <td id="grid-6,5" class="scrabble-td">&nbsp;</td>
+                <td id="grid-6,6" class="scrabble-td">&nbsp;</td>
+                <td id="grid-6,7" class="scrabble-td">&nbsp;</td>
+                <td id="grid-6,8" class="scrabble-td">&nbsp;</td>
+                <td id="grid-6,9" class="scrabble-td">&nbsp;</td>
+                <td id="grid-6,10" class="scrabble-td double-letter">DL</td>
+                <td id="grid-6,11" class="scrabble-td">&nbsp;</td>
+                <td id="grid-6,12" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-6,13" class="scrabble-td">&nbsp;</td>
+                <td id="grid-6,14" class="scrabble-td">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="grid-7,0" class="scrabble-td">&nbsp;</td>
+                <td id="grid-7,1" class="scrabble-td">&nbsp;</td>
+                <td id="grid-7,2" class="scrabble-td">&nbsp;</td>
+                <td id="grid-7,3" class="scrabble-td double-word">DP</td>
+                <td id="grid-7,4" class="scrabble-td">&nbsp;</td>
+                <td id="grid-7,5" class="scrabble-td">&nbsp;</td>
+                <td id="grid-7,6" class="scrabble-td">&nbsp;</td>
+                <td id="grid-7,7" class="scrabble-td star">★</td>
+                <td id="grid-7,8" class="scrabble-td">&nbsp;</td>
+                <td id="grid-7,9" class="scrabble-td">&nbsp;</td>
+                <td id="grid-7,10" class="scrabble-td">&nbsp;</td>
+                <td id="grid-7,11" class="scrabble-td double-word">DP</td>
+                <td id="grid-7,12" class="scrabble-td">&nbsp;</td>
+                <td id="grid-7,13" class="scrabble-td">&nbsp;</td>
+                <td id="grid-7,14" class="scrabble-td">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="grid-8,0" class="scrabble-td">&nbsp;</td>
+                <td id="grid-8,1" class="scrabble-td">&nbsp;</td>
+                <td id="grid-8,2" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-8,3" class="scrabble-td">&nbsp;</td>
+                <td id="grid-8,4" class="scrabble-td double-letter">DL</td>
+                <td id="grid-8,5" class="scrabble-td">&nbsp;</td>
+                <td id="grid-8,6" class="scrabble-td">&nbsp;</td>
+                <td id="grid-8,7" class="scrabble-td">&nbsp;</td>
+                <td id="grid-8,8" class="scrabble-td">&nbsp;</td>
+                <td id="grid-8,9" class="scrabble-td">&nbsp;</td>
+                <td id="grid-8,10" class="scrabble-td double-letter">DL</td>
+                <td id="grid-8,11" class="scrabble-td">&nbsp;</td>
+                <td id="grid-8,12" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-8,13" class="scrabble-td">&nbsp;</td>
+                <td id="grid-8,14" class="scrabble-td">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="grid-9,0" class="scrabble-td">&nbsp;</td>
+                <td id="grid-9,1" class="scrabble-td double-word">DP</td>
+                <td id="grid-9,2" class="scrabble-td">&nbsp;</td>
+                <td id="grid-9,3" class="scrabble-td">&nbsp;</td>
+                <td id="grid-9,4" class="scrabble-td">&nbsp;</td>
+                <td id="grid-9,5" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-9,6" class="scrabble-td">&nbsp;</td>
+                <td id="grid-9,7" class="scrabble-td">&nbsp;</td>
+                <td id="grid-9,8" class="scrabble-td">&nbsp;</td>
+                <td id="grid-9,9" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-9,10" class="scrabble-td">&nbsp;</td>
+                <td id="grid-9,11" class="scrabble-td">&nbsp;</td>
+                <td id="grid-9,12" class="scrabble-td">&nbsp;</td>
+                <td id="grid-9,13" class="scrabble-td double-word">DP</td>
+                <td id="grid-9,14" class="scrabble-td">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="grid-10,0" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-10,1" class="scrabble-td">&nbsp;</td>
+                <td id="grid-10,2" class="scrabble-td">&nbsp;</td>
+                <td id="grid-10,3" class="scrabble-td">&nbsp;</td>
+                <td id="grid-10,4" class="scrabble-td">&nbsp;</td>
+                <td id="grid-10,5" class="scrabble-td">&nbsp;</td>
+                <td id="grid-10,6" class="scrabble-td double-letter">DL</td>
+                <td id="grid-10,7" class="scrabble-td">&nbsp;</td>
+                <td id="grid-10,8" class="scrabble-td double-letter">DL</td>
+                <td id="grid-10,9" class="scrabble-td">&nbsp;</td>
+                <td id="grid-10,10" class="scrabble-td">&nbsp;</td>
+                <td id="grid-10,11" class="scrabble-td">&nbsp;</td>
+                <td id="grid-10,12" class="scrabble-td">&nbsp;</td>
+                <td id="grid-10,13" class="scrabble-td">&nbsp;</td>
+                <td id="grid-10,14" class="scrabble-td triple-letter">TL</td>
+              </tr>
+              <tr>
+                <td id="grid-11,0" class="scrabble-td">&nbsp;</td>
+                <td id="grid-11,1" class="scrabble-td">&nbsp;</td>
+                <td id="grid-11,2" class="scrabble-td">&nbsp;</td>
+                <td id="grid-11,3" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-11,4" class="scrabble-td">&nbsp;</td>
+                <td id="grid-11,5" class="scrabble-td">&nbsp;</td>
+                <td id="grid-11,6" class="scrabble-td">&nbsp;</td>
+                <td id="grid-11,7" class="scrabble-td double-word">DP</td>
+                <td id="grid-11,8" class="scrabble-td">&nbsp;</td>
+                <td id="grid-11,9" class="scrabble-td">&nbsp;</td>
+                <td id="grid-11,10" class="scrabble-td">&nbsp;</td>
+                <td id="grid-11,11" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-11,12" class="scrabble-td">&nbsp;</td>
+                <td id="grid-11,13" class="scrabble-td">&nbsp;</td>
+                <td id="grid-11,14" class="scrabble-td">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="grid-12,0" class="scrabble-td triple-word">TP</td>
+                <td id="grid-12,1" class="scrabble-td">&nbsp;</td>
+                <td id="grid-12,2" class="scrabble-td double-letter">DL</td>
+                <td id="grid-12,3" class="scrabble-td">&nbsp;</td>
+                <td id="grid-12,4" class="scrabble-td">&nbsp;</td>
+                <td id="grid-12,5" class="scrabble-td">&nbsp;</td>
+                <td id="grid-12,6" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-12,7" class="scrabble-td">&nbsp;</td>
+                <td id="grid-12,8" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-12,9" class="scrabble-td">&nbsp;</td>
+                <td id="grid-12,10" class="scrabble-td">&nbsp;</td>
+                <td id="grid-12,11" class="scrabble-td">&nbsp;</td>
+                <td id="grid-12,12" class="scrabble-td double-letter">DL</td>
+                <td id="grid-12,13" class="scrabble-td">&nbsp;</td>
+                <td id="grid-12,14" class="scrabble-td triple-word">TP</td>
+              </tr>
+              <tr>
+                <td id="grid-13,0" class="scrabble-td">&nbsp;</td>
+                <td id="grid-13,1" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-13,2" class="scrabble-td">&nbsp;</td>
+                <td id="grid-13,3" class="scrabble-td">&nbsp;</td>
+                <td id="grid-13,4" class="scrabble-td">&nbsp;</td>
+                <td id="grid-13,5" class="scrabble-td double-word">DP</td>
+                <td id="grid-13,6" class="scrabble-td">&nbsp;</td>
+                <td id="grid-13,7" class="scrabble-td">&nbsp;</td>
+                <td id="grid-13,8" class="scrabble-td">&nbsp;</td>
+                <td id="grid-13,9" class="scrabble-td double-word">DP</td>
+                <td id="grid-13,10" class="scrabble-td">&nbsp;</td>
+                <td id="grid-13,11" class="scrabble-td">&nbsp;</td>
+                <td id="grid-13,12" class="scrabble-td">&nbsp;</td>
+                <td id="grid-13,13" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-13,14" class="scrabble-td">&nbsp;</td>
+              </tr>
+              <tr>
+                <td id="grid-14,0" class="scrabble-td">&nbsp;</td>
+                <td id="grid-14,1" class="scrabble-td">&nbsp;</td>
+                <td id="grid-14,2" class="scrabble-td triple-word">TP</td>
+                <td id="grid-14,3" class="scrabble-td">&nbsp;</td>
+                <td id="grid-14,4" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-14,5" class="scrabble-td">&nbsp;</td>
+                <td id="grid-14,6" class="scrabble-td">&nbsp;</td>
+                <td id="grid-14,7" class="scrabble-td">&nbsp;</td>
+                <td id="grid-14,8" class="scrabble-td">&nbsp;</td>
+                <td id="grid-14,9" class="scrabble-td">&nbsp;</td>
+                <td id="grid-14,10" class="scrabble-td triple-letter">TL</td>
+                <td id="grid-14,11" class="scrabble-td">&nbsp;</td>
+                <td id="grid-14,12" class="scrabble-td triple-word">TP</td>
+                <td id="grid-14,13" class="scrabble-td">&nbsp;</td>
+                <td id="grid-14,14" class="scrabble-td">&nbsp;</td>
+              </tr>
+            </table>
+        </div>
+      </div>
+    </div>
+  </body>
+
+
+<script type="text/javascript">
+var spacing = 0;
+var offset = 50;
+var count = 0;
+var positions = [];
+
+// First of all, lets absolutely position our elements
+
+$("ul.letters li").css('float', 'none').css('position','absolute');
+
+// As the size of the surrounding element will collapse, give it a fixed height:
+
+$("ul.letters").css('height', '40px')
+$("ul.letters li").each(function(){
+
+    // One by one, create a position for each
+    the_position = spacing + "px";
+
+    // Add the position to an array
+    positions.push(the_position);
+
+    // Everything was absolutely positioned: so give the left property the correct distance
+    $(this).css('left', the_position);
+
+    // Store this letter's origianl position for reset
+    $(this).attr('data-origin', the_position);
+
+    // Increment the spacing by the specified amount from earlier
+    spacing += offset;
+
+    // Next letter, increase the count!
+    count ++;
+});
+
+
+$("#shuffle").click(function()
+{
+  // Duplicate array so we don't mess with the original here
+  var shuffled_positions = positions.slice(0);
+
+  // Use the cool fisherYates method of randomly ordering the new array (see later on)
+  var shuffled_positions = fisherYates(shuffled_positions);
+
+  // For each letter...
+  $("ul.letters li").each(function(){
+
+    // Animate
+    $(this).animate({
+      // The left distance, to the first element in the array
+      left: shuffled_positions[0]
+    });
+
+    // Remove the 'used' position from the array
+    shuffled_positions.splice(0, 1);
+  });
+});
+
+// When you click restore...
+$("#restore").click(function()
+{
+  // For each letter
+  $("ul.letters li").each(function(){
+    // Get its original position (set earlier and stored in the html)
+    var pos = $(this).attr('data-origin');
+    // Animate
+    $(this).animate({
+      // It's left distance
+      left: pos
+    });
+  });
+});
+
+//this is some cool algorithm that is recommended
+function fisherYates ( myArray ) {
+    var i = myArray.length;
+    if ( i == 0 ) return false;
+    while ( --i ) {
+        var j = Math.floor( Math.random() * ( i + 1 ) );
+        var tempi = myArray[i];
+        var tempj = myArray[j];
+        myArray[i] = tempj;
+        myArray[j] = tempi;
+    }
+    return myArray;
+}
+</script>
+</html>

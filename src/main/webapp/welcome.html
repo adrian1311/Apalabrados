@@ -1,0 +1,138 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <title>Apalabrados</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8">
+
+    <!--BOOTSTRAP-->
+    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <!-- JQuery -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  </head>
+
+  <body>
+
+<h1>Bienvenido a Apalabrados</h1>
+    <div class="container">
+      	<div class="row">
+  			<div class="col-md-6 col-md-offset-3">
+  				<div class="panel panel-login">
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-lg-4">
+                          <div class="parent-selector">
+                            <div class="view-image" >
+                              <img src="./img/avatars/user.png"/>
+                              <div class="button" id="button-other"><span>Other</span></div>
+                            </div>
+
+                            <div class="select-image" style="display: none;">
+                              <div class="list-image">
+                                <img class="active" src="./img/avatars/man.png" alt="1"/>
+                                <img src="./img/avatars/man-1.png" alt="2"/>
+                                <img src="./img/avatars/man-2.png" alt="2"/>
+                                <img src="./img/avatars/man-3.png" alt="2"/>
+                                <img src="./img/avatars/woman.png" alt="2"/>
+                                <img src="./img/avatars/woman-1.png" alt="2"/>
+                                <img src="./img/avatars/woman-2.png" alt="2"/>
+                                <img  src="./img/avatars/woman-3.png" alt="2"/>
+                              </div>
+                              <div class="button" id="button-confirm"><span>Confirm</span></div>
+                            </div>
+
+                          </div>
+                </div>
+
+                <div class="col-lg-8">
+                  <div class="row">
+                      <table class="table" style="text-align:center">
+                        <tbody>
+                        <tr>
+                          <td><h5>Personal data</h5></td>
+                          <td><a href= ./index2.html target=_blank><button type="button" class="btn btn-primary"><img  src="./iconos/logout.png" /></button></a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+  								<form id="login-form" action="https://phpoll.com/login/process" method="post" role="form" style="display: block;">
+  									<div class="form-group">
+  										<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+  									</div>
+  									<div class="form-group">
+  										<input type="email" name="email" id="email" tabindex="2" class="form-control" placeholder="Email Address">
+  									</div>
+  								</form>
+  							</div>
+  						</div>
+
+
+
+  					</div>
+
+            <div class="panel-heading">
+            <hr></br>
+              <div class="row">
+  							       <div class="col-6">
+  								               <a href= ./tablero.html target=_blank><button type="button" class="form-control btn btn-register">Crear una partida</button></a>
+  							      </div>
+                </div>
+              </br>
+                <div class="row">
+  							         <div class="col-6">
+  								                 <a href= ./tablero.html target=_blank><button type="button" class="form-control btn btn-register">Unirse a partida</button></a>
+  							         </div>
+                </div>
+  					</div>
+
+
+
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  <script type="text/javascript">
+  var elementSelected = null;
+  var typeSelected = false;
+
+  $(document).on('click', '.list-image > img', function(){
+    $('.list-image > img').each(function(){
+      $(this).removeClass('active');
+    })
+    $(this).addClass('active');
+    elementSelected = $(this);
+    typeSelected = false;
+  });
+
+  $(document).on('input', '#text-src', function(){
+    $('.list-image > img').each(function(){
+      $(this).removeClass('active');
+    })
+    elementSelected = $(this);
+    typeSelected = true;
+  })
+
+  $(document).on('click', '#button-confirm', function(){
+    $('.select-image').hide();
+    if(typeSelected == true){
+      $('.view-image > img').attr('src', elementSelected.val());
+    }
+    else{
+      $('.view-image > img').attr('src', elementSelected.attr('src'));
+    }
+    $('.view-image').fadeIn('high');
+  })
+
+  $(document).on('click', '#button-other', function(){
+    $('.view-image').hide();
+    $('.select-image').fadeIn('high');
+  })
+
+  </script>
+
+</html>
