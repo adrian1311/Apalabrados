@@ -1,137 +1,46 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-
+	
 	<!-- Bootstrap style -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+	
 	<!-- Tablero CSS -->
     <link rel="stylesheet" type="text/css" href="css/tablero.css">
-
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 	<div class="row" data-bind="visible : shouldShowTablero">
-		<!-- COLUMNA 1 DEL GRID -->
-		<div class="col-4">
-
-			<div class="controlPanel">
-				<!-- FILA COMPONENTES CUENTA ATRAS -->
-				<div class="row">
-					<div class="col-12" style="text-align:center">
-					</br></br>
-						<button type="button" onclick="initializeClock('clockdiv',deadline)">Empezar turno</button>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-12" style="text-align:center">
-						</br>
-						<div id="clockdiv">
-							<div>
-								<span class="minutes"></span>
-								<div class="smalltext">Minutes</div>
-							</div>
-							<div>
-								<span class="seconds"></span>
-								<div class="smalltext">Seconds</div>
-							</div>
-						</div>
-						<br><br>
-					</div>
-				</div>
-				</br>
-				<!-- FILA COMPONENTES TIEMPO Y PUNTUACIONES -->
-				<div class="row">
-					<div class="col-12">
-						<table class="table" style="text-align:center">
-							<thead>
-								<tr>
-									<th/>JUGADOR</th>
-									<th/>PUNTUACIONES              <img src=".\iconos\info.png"/></th>
-
-								</tr>
-							</thead>
-								<tbody>
-								<tr>
-									<td/>Raquel Ramos</td>
-									<td/>15</td>
-								</tr>
-								<tr>
-									<td/>Adrian Nikolev</td>
-									<td/>30</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="row">
-				</br></br></br>
-				</div>
-				<!-- FILA COMPONENTES FICHAS JUGADOR -->
-				<div class="row">
-					<div class="col-12">
-							<div class="letters-wrapper">
-								<!-- ko using : tablero -->
-								<ul class="letters">
-									Panel:
-									<!-- ko foreach : panel -->
-									<li data-bind="html : $data, click : function() { $parent.seleccionar($data); }"></li>
-									<!-- /ko -->
-									</ul>
-									<br>
-									<button data-bind="click : jugar">Jugar</button>
-								<!-- /ko -->
-						</div>
-					</div>
-				</div>
-				<!-- FILA COMPONENTES BOTONES JUGADAS -->
-				<div class="row">
-					<div class="col-12">
-						<img src="./img/shelf.jpg" width="100%"/>
-					</div>
-				</div>
-
-			<div id="botonera">
-				<div class="row">
-					<div class="col-12">
-						<div class="buttons-wrapper">
-							<ul class="buttons">
-									<li><button type="button" class="btn btn-primary" title="Comprobar" button data-bind="click : jugar, disabled : turnoDeOponente"><img src="./iconos/check.png" /></button></li>
-									<li><button type="button" class="btn btn-primary" title="Llamar"><img src="./iconos/back.png" /></button></li>
-									<li><button type="button" class="btn btn-primary" title="Cambiar"><img src="./iconos/change.png"/></button></li>
-									<li><button type="button" class="btn btn-primary" title="Mezclar"><a id='shuffle'><img src="./iconos/mix.png"/></a></button></li>
-									<li><button type="button" class="btn btn-primary" title="Pasar" data-bind="click : pasarTurno, disabled : turnoDeOponente"><img src="./iconos/pass.png"/></button></li>
-									<li><button type="button" class="btn btn-primary" title="Rendirse"><img src="./iconos/flag.png"/></button></li>
-							</ul>
-					</div>
-			</div>
-			</div>
-		</div>
-
-			</div>
-		</div>
-
-		<!-- COLUMNA 2 DEL GRID -->
-		<div class="col-8">
-			<!-- TABLERO -->
+		<div class="col-sm-8">
 			<table id="board" class="scrabble-table mdl-shadow--24dp" width="100%">
-							<tbody>
-								<!-- ko using : tablero -->
-									<!-- ko foreach : { data: casillas, as: 'fila' } -->
-									<tr>
-										<!-- ko foreach : { data: fila, as: 'celda' } -->
-											<!-- ko using : celda -->
-											<td data-bind="class : clazz, click : seleccionar">
-												<label data-bind="html : letter"></label>
-											</td>
-											<!-- /ko -->
-										<!-- /ko -->
-									</tr>
-									<!-- /ko -->
+				<tbody>
+					<!-- ko using : tablero -->
+						<!-- ko foreach : { data: casillas, as: 'fila' } -->         
+						<tr>
+							<!-- ko foreach : { data: fila, as: 'celda' } -->
+								<!-- ko using : celda -->
+								<td data-bind="class : clazz, click : seleccionar">
+									<label data-bind="html : letter"></label>
+								</td>
 								<!-- /ko -->
-							</tbody>
-						</table>
+							<!-- /ko -->
+						</tr>
+						<!-- /ko -->
+					<!-- /ko -->
+				</tbody>
+			</table>	
+		</div>
+		<div class="col-sm-4">
+		<!-- ko using : tablero -->
+			Panel:
+			<!-- ko foreach : panel -->
+			<button data-bind="html : $data, click : function() { $parent.seleccionar($data); }"></button>
+			<!-- /ko -->
+			<br>
+			<button data-bind="click : jugar, disabled : turnoDeOponente">Jugar</button>
+			<button data-bind="click : pasarTurno, disabled : turnoDeOponente">Jugar</button>
+		<!-- /ko -->
 		</div>
 	</div>
 
@@ -204,3 +113,14 @@
 	<script src="app/user.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
